@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Solo se cargan archivos propios y la única conexión permitida es el WebSocket de Zello. -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; connect-src wss://zellowork.io; base-uri 'none'; form-action 'none'"
+    />
+    <meta name="referrer" content="no-referrer" />
+    <meta name="description" content="Consola web de push-to-talk sobre la Zello Channel API." />
+    <title>Zello PTT — M-Guardia</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <script type="module" src="js/app.js"></script>
+  </head>
+  <body>
+    <header>
+      <h1>Zello PTT — M-Guardia</h1>
+      <span id="state" class="badge" role="status" aria-live="polite">desconectado</span>
+      <span class="spacer"></span>
+      <a href="https://github.com/zelloptt/zello-channel-api/blob/main/API.md" target="_blank" rel="noopener noreferrer"
+        >Channel API</a
+      >
+    </header>
+
+    <main>
+      <div>
+        <section aria-labelledby="h-conexion">
+          <h2 id="h-conexion">Conexión</h2>
+          <form id="connectForm" novalidate>
+            <label for="network">Red ZelloWork</label>
+            <input id="network" placeholder="mi-red" autocomplete="off" spellcheck="false" required />
+            <label for="username">Usuario</label>
+            <input id="username" placeholder="usuario de la consola" autocomplete="off" spellcheck="false" required />
+            <label for="password">Clave</label>
+            <input id="password" type="password" autocomplete="off" required />
+            <label for="channelsIn">Canales (uno por línea, nombre exacto)</label>
+            <textarea id="channelsIn" placeholder="Nombre exacto del canal" spellcheck="false" required></textarea>
+            <div class="row">
+              <button id="connect" type="submit">Conectar</button>
+              <button id="disconnect" type="button" class="secondary" disabled>Desconectar</button>
+            </div>
+          </form>
+          <p id="browserWarning" class="notice warn" hidden></p>
+          <p class="notice">La clave no se guarda: solo se envía a <code>zellowork.io</code> al conectar.</p>
+        </section>
+
+        <section aria-labelledby="h-canales">
+          <h2 id="h-canales">Canales</h2>
+          <ul id="channels" class="channels">
+            <li class="hint">Sin conexión</li>
+          </ul>
+        </section>
+      </div>
+
+      <div>
+        <section aria-labelledby="h-ptt">
+          <h2 id="h-ptt">Push-to-talk</h2>
+          <div class="ptt-wrap">
+            <div id="target" class="hint" aria-live="polite">Elegí un canal</div>
+            <button id="ptt" type="button" aria-pressed="false" disabled>Mantener<br />para hablar</button>
+            <div class="hint">También: mantener la <b>barra espaciadora</b></div>
+            <div id="rx" aria-live="polite"></div>
+          </div>
+          <label for="forUser">Hablarle solo a (usuario Zello, opcional)</label>
+          <input id="forUser" placeholder="vacío = todo el canal" autocomplete="off" spellcheck="false" />
+        </section>
+
+        <section aria-labelledby="h-log">
+          <div class="section-head">
+            <h2 id="h-log">Log</h2>
+            <label class="inline"><input type="checkbox" id="showJson" checked /> JSON crudo</label>
+          </div>
+          <div id="log" role="log"></div>
+          <div class="row">
+            <button id="clearLog" type="button" class="secondary">Limpiar</button>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer>Prueba de concepto · requiere Chrome o Edge · el audio usa WebCodecs (Opus)</footer>
+  </body>
+</html>

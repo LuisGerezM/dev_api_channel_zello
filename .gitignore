@@ -1,0 +1,13 @@
+# Credenciales locales: nunca se suben
+config.local.js
+*.local.js
+.env*
+
+# Editor / sistema
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Artefactos de despliegue
+_site/
